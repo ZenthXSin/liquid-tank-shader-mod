@@ -1,0 +1,50 @@
+version '1.0.0'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    ext {
+        mindustryVersion = 'v159.7'
+    }
+}
+
+apply plugin: "java"
+
+sourceSets.main.java.srcDirs = ["src"]
+sourceSets.main.resources.srcDirs = ["src"]
+
+// Android 不提供 java.lang.invoke.StringConcatFactory / LambdaMetafactory：
+// 强制字符串拼接用老式 StringBuilder（stringConcat=inline）。
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ["-XDstringConcat=inline"]
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
+    compileOnly "com.github.Anuken.Arc:arc-core:208a754044"
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveFileName = "liquid-tank-shader-mod.jar"
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    from(rootDir) {
+        include "mod.json"
+    }
+    from("shaders") {
+        include "**"
+        into("shaders")
+    }
+    from("textures") {
+        include "**"
+        into("textures")
+    }
+}

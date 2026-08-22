@@ -1,0 +1,10 @@
+{
+  "name": "liquid-tank-shader-mod",
+  "displayName": "液体罐着色器",
+  "author": "Eve",
+  "description": "LiquidTank 液面使用原版液体着色器（water/slag/cryofluid 等）效果",
+  "version": "1.0.0",
+  "minGameVersion": "154",
+  "main": "liquidtank.LiquidTankShaderMod",
+  "java": true
+}
