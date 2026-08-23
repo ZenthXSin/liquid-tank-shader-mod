@@ -32,6 +32,7 @@ object LiquidTankShaders {
             name.contains("tar") -> 3
             name.contains("mud") -> 4
             name.contains("arkycite") -> 5
+            name.contains("neoplasm") || name.contains("oil") -> -1 // 无原版 shader，直接渲染原色
             else -> 0 // water 风格
         }
     }
