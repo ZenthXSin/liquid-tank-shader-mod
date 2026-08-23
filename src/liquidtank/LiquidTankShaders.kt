@@ -22,7 +22,7 @@ object LiquidTankShaders {
     var curLiquidType: Int = 0
 
     /**
-     * 液体类型 → 效果索引: 0=water, 1=slag, 2=cryofluid, 3=tar, 4=mud, 5=arkycite
+     * 液体类型 → 效果索引: 0=water, 1=slag, 2=cryofluid, 3=tar, 4=mud, 5=arkycite, 6=neoplasm, 7=oil
      */
     fun liquidTypeIndex(liquid: Liquid): Int {
         val name = liquid.name
@@ -32,6 +32,8 @@ object LiquidTankShaders {
             name.contains("tar") -> 3
             name.contains("mud") -> 4
             name.contains("arkycite") -> 5
+            name.contains("neoplasm") -> 6
+            name.contains("oil") -> 7
             else -> 0 // water 风格
         }
     }
