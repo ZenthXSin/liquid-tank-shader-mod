@@ -1,17 +1,15 @@
-version '1.0.0'
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    ext {
-        mindustryVersion = 'v159.7'
-    }
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '2.1.0'
 }
 
-apply plugin: "java"
+version '1.0.0'
 
-sourceSets.main.java.srcDirs = ["src"]
+ext {
+    mindustryVersion = 'v159.7'
+}
+
+sourceSets.main.kotlin.srcDirs = ["src"]
 sourceSets.main.resources.srcDirs = ["src"]
 
 // Android 不提供 java.lang.invoke.StringConcatFactory / LambdaMetafactory：
@@ -20,12 +18,26 @@ tasks.withType(JavaCompile) {
     options.compilerArgs += ["-XDstringConcat=inline"]
 }
 
+// Android 兼容：Kotlin 默认字符串拼接与 SAM lambda 会生成 invokedynamic，
+// ART 不支持，强制改用 StringBuilder 与匿名类。
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        freeCompilerArgs += ["-Xstring-concat=inline"]
+        jvmTarget = "17"
+    }
+}
+
+kotlin {
+    jvmToolchain(17)
+}
+
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.1.0"
     compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
     compileOnly "com.github.Anuken.Arc:arc-core:208a754044"
 }

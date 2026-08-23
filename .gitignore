@@ -1,1 +1,10 @@
-build/\n.gradle/\n.gradle*\ngradle/\ngradlew\ngradlew.bat\n*.jar\n*.iml\n.idea/\n.vscode/
+build/
+.gradle/
+.gradle*
+gradle/
+gradlew
+gradlew.bat
+*.jar
+*.iml
+.idea/
+.vscode/
