@@ -32,8 +32,6 @@ object LiquidTankShaders {
             name.contains("tar") -> 3
             name.contains("mud") -> 4
             name.contains("arkycite") -> 5
-            name.contains("neoplasm") -> 6
-            name.contains("oil") -> 7
             else -> 0 // water 风格
         }
     }
@@ -54,6 +52,9 @@ object LiquidTankShaders {
             tankShader = object : Shader(vertFi, fragFi) {
                 override fun apply() {
                     try {
+                        // 与原版 SurfaceShader 一致：相机左下角 + 相机大小
+                        setUniformf("u_campos", Core.camera.position.x - Core.camera.width / 2, Core.camera.position.y - Core.camera.height / 2)
+                        setUniformf("u_resolution", Core.camera.width, Core.camera.height)
                         setUniformf("u_time", Time.time)
                         setUniformi("u_liquidType", curLiquidType)
 
